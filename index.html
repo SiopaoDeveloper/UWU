@@ -1,0 +1,81 @@
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+
+const sections = [
+  {
+    title: "🤖 AI-Augmented Decision Making",
+    content:
+      "AI boosts decision-making by processing massive datasets and predicting outcomes faster than humans.",
+    details:
+      "Anime Example: *Psycho-Pass* — AI (the Sibyl System) governs society by determining potential criminals before crimes occur. It shows the benefits of proactive security but raises ethical questions."
+  },
+  {
+    title: "⚠️ Overdependence on Automation",
+    content:
+      "Relying too much on automation risks job losses and critical thinking skills.",
+    details:
+      "Anime Example: *Ghost in the Shell* — As humans fuse with machines, autonomy is questioned. Automation may undermine free will and human accountability."
+  },
+  {
+    title: "🎭 Algorithmic Bias",
+    content:
+      "AI can unintentionally enforce harmful stereotypes and unfair outcomes.",
+    details:
+      "Anime Example: *Ergo Proxy* — The domed cities rely on AI logic that hides uncomfortable truths. Bias in AI systems distorts justice and equality."
+  }
+];
+
+export default function AnimeAiInfographic() {
+  const [active, setActive] = useState(null);
+
+  return (
+    <div className="max-w-6xl mx-auto mt-10 px-4">
+      <h1 className="text-5xl font-extrabold text-center mb-4 bg-gradient-to-r from-purple-500 to-blue-500 text-transparent bg-clip-text">
+        🎌 Anime x AI: Insights & Warnings
+      </h1>
+      <p className="text-center text-gray-600 mb-10 text-lg">
+        Explore futuristic AI ethics through iconic anime.
+      </p>
+
+      <div className="grid md:grid-cols-3 gap-6">
+        {sections.map((section, index) => (
+          <motion.div
+            key={index}
+            whileHover={{ scale: 1.05, rotate: 1 }}
+            className="cursor-pointer"
+            onClick={() => setActive(index)}
+          >
+            <Card className="bg-gradient-to-br from-indigo-100 via-white to-pink-100 hover:shadow-2xl transition duration-300 p-4 rounded-2xl">
+              <CardContent>
+                <h2 className="text-xl font-semibold mb-2 text-gray-800">{section.title}</h2>
+                <p className="text-sm text-gray-600">{section.content}</p>
+              </CardContent>
+            </Card>
+          </motion.div>
+        ))}
+      </div>
+
+      <AnimatePresence>
+        {active !== null && (
+          <motion.div
+            key="popup"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            className="fixed top-20 left-1/2 transform -translate-x-1/2 bg-white z-50 p-6 rounded-xl shadow-2xl w-[90%] max-w-xl border border-purple-200"
+          >
+            <h3 className="text-2xl font-bold mb-2 text-purple-700">{sections[active].title}</h3>
+            <p className="text-gray-700 mb-4 text-sm leading-relaxed">{sections[active].details}</p>
+            <div className="text-right">
+              <Button onClick={() => setActive(null)} variant="ghost">
+                Close
+              </Button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
